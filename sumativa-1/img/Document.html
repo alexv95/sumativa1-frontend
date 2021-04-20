@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<!-- saved from url=(0032)http://127.0.0.1:5500/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+      <!-- Materialize-->
+<script src="./Document_files/jquery.min.js.descarga"></script>
+
+    <link rel="stylesheet" href="./Document_files/materialize.min.css">
+    <link href="./Document_files/icon" rel="stylesheet">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="./Document_files/materialize.min.js.descarga"></script>
+    <link rel="stylesheet" href="./Document_files/font-awesome.min.css">
+    <style>
+        body {
+    text-align: center;
+}
+form {
+    display: inline-block;
+}
+    </style>
+       <script>
+           function validarRut(numero,dv) {
+                if(!isNaN(numero) || numero.length == 0 || numero.length > 8 ) {
+                    return false;
+                } else {
+                    if(getDV(numero) == dv) return true;
+                }
+                return false;
+            }
+            function getDV(numero) {
+                nuevo_numero = numero.toString().split("").reverse().join("");
+                for(i=0,j=2,suma=0; i < nuevo_numero.length; i++, ((j==7) ? j=2 : j++)) {
+                    suma += (parseInt(nuevo_numero.charAt(i)) * j); 
+                }
+                n_dv = 11 - (suma % 11);
+                return ((n_dv == 11) ? 0 : ((n_dv == 10) ? "K" : n_dv));
+            };
+
+            function validaCampos(){
+                let validateText=["rut","dv","first_name","last_name","born_date","direccion","comuna","vehiculo","marca","modelo","year","revision","primer_servicio","segundo_servicio","horarioinicio","horariotermino"];
+                let errorText= ["errorrut","errordv","errorfirst_name","errorlast_name","errorborn_date","errordireccion","errorcomuna","errorvehiculo","errormarca","errormodelo","erroryear","errorrevision","errorprimer_servicio","errorsegundo_servicio","errorhorarioinicio","errorhorariotermino"];
+                console.log(validateText.length);
+                let cont=0;
+                for(let i=0;i<validateText.length;i++) {
+                    try{
+                                            if(i>=0 && i<11|| i>14 ){
+                                                if(document.getElementById(validateText[i]).value==""){
+                                                    document.getElementById(errorText[i]).innerHTML="Campo Invalido";
+                                                }
+                                                else{
+                                                    cont= cont+1;
+                                                    document.getElementById(errorText[i]).innerHTML="";
+                                                }
+
+                                            }
+                                            else if(i>=12&&i<14){
+                                                if(document.getElementById(validateText[12]).checked ||  document.getElementById(validateText[13]).checked ){
+                                                    
+                                                    document.getElementById("customError").innerHTML= "";
+                                                    cont=cont+1;
+
+                                                }
+                                                else{
+                                                    document.getElementById("customError").innerHTML= "Debe seleccionar un servicio";
+                                                
+                                                }
+                                                
+                                            }
+
+  
+                }
+                    catch(error){
+                        console.log("error on"+error);
+                    }
+                  
+
+                }
+                if(cont>16){
+                    let result=0;
+                    if(document.getElementById(validateText[12]).checked){
+                        result = result +5000;
+                    }
+                    if(document.getElementById(validateText[13]).checked){
+                        result = result+8000;
+
+                    }
+                    alert("total a pagar es "+ result);
+
+
+                }              
+
+            }
+       </script>    
+</head>
+<body>
+    <section id="myNav">
+
+  <nav>
+    <div class="nav-wrapper blue darken-1">
+      <a href="http://127.0.0.1:5500/index.html#" class="brand-logo center"> <img src="./Document_files/everis-logo.png" alt="" style="height:40px;width:40px;"></a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li><a href="http://127.0.0.1:5500/index.html#">Inicio</a></li>
+        <li><a href="http://127.0.0.1:5500/index.html#">Servicios</a></li>
+        <li><a href="http://127.0.0.1:5500/index.html#">Contacto</a></li>
+      </ul>
+    </div>
+  </nav>
+</section>
+
+<section id="myForm">
+
+<div class="row ">
+    <form class="container">
+
+        <table class="row">
+            <tbody><tr class="input-field inline">
+                <td><label for="rut">Rut</label></td>
+                <td><input id="rut" type="text" class="validate" maxlength="8" minlength="1"> </td>
+                <td><label id="errorrut" style="color:red"></label></td>
+                <td><label for="dv">Dígito verificador</label></td>
+                <td><input id="dv" type="text" class="validate" maxlength="1" minlength="1"></td>
+                <td><label id="errordv" style="color:red"></label></td>
+            </tr>
+            <tr class="input-field inline">
+                <td><label for="first_name">Nombre</label></td>
+                <td> <input id="first_name" type="text" class="validate"></td>
+                <td><label id="errorfirst_name" style="color:red"></label></td>
+                <td><label for="last_name">Apellido</label></td>
+                <td><input id="last_name" type="text" class="validate"></td>
+                <td><label id="errorlast_name" style="color:red"></label></td>
+            </tr>
+
+            <tr class="input-field inline">
+
+                    <td><label for="born_date">Fecha de nacimiento</label></td>
+                    <td><div class="modal datepicker-modal" id="modal-53d8d3f6-4be4-5d50-3a3b-61bcaf154a24" tabindex="0"><div class="modal-content datepicker-container"><div class="datepicker-date-display"><span class="year-text"></span><span class="date-text"></span></div><div class="datepicker-calendar-container"><div class="datepicker-calendar"></div><div class="datepicker-footer"><button class="btn-flat datepicker-clear waves-effect" style="visibility: hidden;" type="button"></button><div class="confirmation-btns"><button class="btn-flat datepicker-cancel waves-effect" type="button">Cancel</button><button class="btn-flat datepicker-done waves-effect" type="button">Ok</button></div></div></div></div></div><input id="born_date" type="text" class="datepicker"></td>
+                    <td><label id="errorborn_date" style="color:red"></label></td>
+                    <td><label for="direccion">Dirección</label></td>
+                    <td><input type="text" id="direccion"></td>
+                    <td><label id="errordireccion" style="color:red"></label></td>
+
+            </tr>
+            <tr class="input-field inline">
+                <td><label for="comuna">Comuna</label></td>
+                <td><input type="text" id="comuna"></td>
+                <td><label id="errorcomuna" style="color:red"></label></td>
+                <td><label for="vehiculo">Vehículo</label></td>
+                <td>
+                <div class="select-wrapper"><input class="select-dropdown dropdown-trigger" type="text" readonly="true" data-target="select-options-17f0a806-f89e-44ec-ed87-71a305e35dc4"><ul id="select-options-17f0a806-f89e-44ec-ed87-71a305e35dc4" class="dropdown-content select-dropdown" tabindex="0"><li class="disabled selected" id="select-options-17f0a806-f89e-44ec-ed87-71a305e35dc40" tabindex="0"><span>Tipo vehículo</span></li><li id="select-options-17f0a806-f89e-44ec-ed87-71a305e35dc41" tabindex="0"><span>Auto</span></li><li id="select-options-17f0a806-f89e-44ec-ed87-71a305e35dc42" tabindex="0"><span>Furgón</span></li><li id="select-options-17f0a806-f89e-44ec-ed87-71a305e35dc43" tabindex="0"><span>Camión</span></li></ul><svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg><select id="vehiculo" tabindex="-1">
+                    <option value="" disabled="" selected="">Tipo vehículo</option>
+                    <option value="1">Auto</option>
+                    <option value="2">Furgón</option>
+                    <option value="3">Camión</option>
+                </select></div>
+                </td>
+                <td><label id="errorvehiculo" style="color:red"></label></td>
+            </tr>
+            
+        </tbody></table>
+        <h4>
+            Datos del vehículo
+        </h4>
+        <center>
+            <div class="container">
+
+                <div class="row input-field inline">
+
+                    <div class="select-wrapper"><input class="select-dropdown dropdown-trigger" type="text" readonly="true" data-target="select-options-210aec96-a809-c299-4e03-e43c52511293"><ul id="select-options-210aec96-a809-c299-4e03-e43c52511293" class="dropdown-content select-dropdown" tabindex="0"><li class="disabled selected" id="select-options-210aec96-a809-c299-4e03-e43c525112930" tabindex="0"><span>Elige tu Marca</span></li><li id="select-options-210aec96-a809-c299-4e03-e43c525112931" tabindex="0"><span>Volkswagen</span></li><li id="select-options-210aec96-a809-c299-4e03-e43c525112932" tabindex="0"><span>Chevrolet</span></li><li id="select-options-210aec96-a809-c299-4e03-e43c525112933" tabindex="0"><span>Ferrari</span></li></ul><svg class="caret" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg><select id="marca" class="col s6" tabindex="-1">
+                        <option value="" disabled="" selected="" style="text-align: center;">Elige tu Marca</option>
+                        <option value="1">Volkswagen</option>
+                        <option value="2">Chevrolet</option>
+                        <option value="3">Ferrari</option>
+                    </select></div>
+                    <div>
+                        <label id="errormarca" style="color:red"></label>
+                    </div>
+                    
+
+                </div>
+                <div class="row input-field inline">
+                    <label for="modelo">Modelo</label>
+                    <input type="text" id="modelo">
+                    <br>
+                    <div>
+                        <label id="errormodelo" style="color:red"></label>
+                    </div>
+                    
+                </div>
+                <div class="row input-field inline">
+                    <label for="year">Año</label>
+                    <input type="number" name="" id="year" min="2000" max="2021" step="1">
+                    <br>
+                    <div>
+                        <label id="erroryear" style="color:red"></label>
+                    </div>
+                    
+                </div>
+
+                <div class="row">
+                    <p>Estado de la revisión</p>
+                    <label>
+                        <input type="checkbox" id="revision">
+                        <span>Revisión técnica</span>
+                    </label>
+
+                </div>
+                <div class="row">
+                    <p>Selección del servicio</p>
+                    <p id="customError" style="color:red"></p>
+                    <label>
+                        <input type="checkbox" id="primer_servicio">
+                        <span>Lavado exterior</span>
+                    </label>
+                    <label>
+                        <input type="checkbox" id="segundo_servicio">
+                        <span>Lavado motor</span>
+                    </label>
+                </div>
+                <div class="row input-field inline">
+                    <label for="horarioinicio">Horario de Inicio</label>
+                    <div class="modal timepicker-modal" id="modal-eb627fa8-d6b3-8723-86db-7435a10e59e9" tabindex="0"><div class="modal-content timepicker-container"><div class="timepicker-digital-display"><div class="timepicker-text-container"><div class="timepicker-display-column"><span class="timepicker-span-hours text-primary"></span>:<span class="timepicker-span-minutes"></span></div><div class="timepicker-display-column timepicker-display-am-pm"><div class="timepicker-span-am-pm"><div class="am-btn">AM</div><div class="pm-btn">PM</div></div></div></div></div><div class="timepicker-analog-display"><div class="timepicker-plate"><div class="timepicker-canvas"><svg class="timepicker-svg" width="270" height="270"><g transform="translate(135,135)"><line x1="0" y1="0"></line><circle class="timepicker-canvas-bg" r="20"></circle><circle class="timepicker-canvas-bearing" cx="0" cy="0" r="4"></circle></g></svg></div><div class="timepicker-dial timepicker-hours"><div class="timepicker-tick" style="left: 167.5px; top: 24.0673px;">1</div><div class="timepicker-tick" style="left: 205.933px; top: 62.5px;">2</div><div class="timepicker-tick" style="left: 220px; top: 115px;">3</div><div class="timepicker-tick" style="left: 205.933px; top: 167.5px;">4</div><div class="timepicker-tick" style="left: 167.5px; top: 205.933px;">5</div><div class="timepicker-tick" style="left: 115px; top: 220px;">6</div><div class="timepicker-tick" style="left: 62.5px; top: 205.933px;">7</div><div class="timepicker-tick" style="left: 24.0673px; top: 167.5px;">8</div><div class="timepicker-tick" style="left: 10px; top: 115px;">9</div><div class="timepicker-tick" style="left: 24.0673px; top: 62.5px;">10</div><div class="timepicker-tick" style="left: 62.5px; top: 24.0673px;">11</div><div class="timepicker-tick" style="left: 115px; top: 10px;">12</div></div><div class="timepicker-dial timepicker-minutes timepicker-dial-out"><div class="timepicker-tick" style="left: 115px; top: 10px;">00</div><div class="timepicker-tick" style="left: 167.5px; top: 24.0673px;">05</div><div class="timepicker-tick" style="left: 205.933px; top: 62.5px;">10</div><div class="timepicker-tick" style="left: 220px; top: 115px;">15</div><div class="timepicker-tick" style="left: 205.933px; top: 167.5px;">20</div><div class="timepicker-tick" style="left: 167.5px; top: 205.933px;">25</div><div class="timepicker-tick" style="left: 115px; top: 220px;">30</div><div class="timepicker-tick" style="left: 62.5px; top: 205.933px;">35</div><div class="timepicker-tick" style="left: 24.0673px; top: 167.5px;">40</div><div class="timepicker-tick" style="left: 10px; top: 115px;">45</div><div class="timepicker-tick" style="left: 24.0673px; top: 62.5px;">50</div><div class="timepicker-tick" style="left: 62.5px; top: 24.0673px;">55</div></div></div><div class="timepicker-footer"><button class="btn-flat timepicker-clear waves-effect" style="visibility: hidden;" type="button" tabindex="3">Clear</button><div class="confirmation-btns"><button class="btn-flat timepicker-close waves-effect" type="button" tabindex="3">Cancel</button><button class="btn-flat timepicker-close waves-effect" type="button" tabindex="3">Ok</button></div></div></div></div></div><input type="text" class="timepicker small" id="horarioinicio">
+
+                    <div>
+                        <label id="errorhorarioinicio" style="color:red"></label>
+                    </div>
+                </div>
+                <div class="row input-field inline">
+                    <label for="horariotermino">Horario de termino</label>
+                    <div class="modal timepicker-modal" id="modal-056473b6-6084-9e65-f0e6-f032d985ad18" tabindex="0"><div class="modal-content timepicker-container"><div class="timepicker-digital-display"><div class="timepicker-text-container"><div class="timepicker-display-column"><span class="timepicker-span-hours text-primary"></span>:<span class="timepicker-span-minutes"></span></div><div class="timepicker-display-column timepicker-display-am-pm"><div class="timepicker-span-am-pm"><div class="am-btn">AM</div><div class="pm-btn">PM</div></div></div></div></div><div class="timepicker-analog-display"><div class="timepicker-plate"><div class="timepicker-canvas"><svg class="timepicker-svg" width="270" height="270"><g transform="translate(135,135)"><line x1="0" y1="0"></line><circle class="timepicker-canvas-bg" r="20"></circle><circle class="timepicker-canvas-bearing" cx="0" cy="0" r="4"></circle></g></svg></div><div class="timepicker-dial timepicker-hours"><div class="timepicker-tick" style="left: 167.5px; top: 24.0673px;">1</div><div class="timepicker-tick" style="left: 205.933px; top: 62.5px;">2</div><div class="timepicker-tick" style="left: 220px; top: 115px;">3</div><div class="timepicker-tick" style="left: 205.933px; top: 167.5px;">4</div><div class="timepicker-tick" style="left: 167.5px; top: 205.933px;">5</div><div class="timepicker-tick" style="left: 115px; top: 220px;">6</div><div class="timepicker-tick" style="left: 62.5px; top: 205.933px;">7</div><div class="timepicker-tick" style="left: 24.0673px; top: 167.5px;">8</div><div class="timepicker-tick" style="left: 10px; top: 115px;">9</div><div class="timepicker-tick" style="left: 24.0673px; top: 62.5px;">10</div><div class="timepicker-tick" style="left: 62.5px; top: 24.0673px;">11</div><div class="timepicker-tick" style="left: 115px; top: 10px;">12</div></div><div class="timepicker-dial timepicker-minutes timepicker-dial-out"><div class="timepicker-tick" style="left: 115px; top: 10px;">00</div><div class="timepicker-tick" style="left: 167.5px; top: 24.0673px;">05</div><div class="timepicker-tick" style="left: 205.933px; top: 62.5px;">10</div><div class="timepicker-tick" style="left: 220px; top: 115px;">15</div><div class="timepicker-tick" style="left: 205.933px; top: 167.5px;">20</div><div class="timepicker-tick" style="left: 167.5px; top: 205.933px;">25</div><div class="timepicker-tick" style="left: 115px; top: 220px;">30</div><div class="timepicker-tick" style="left: 62.5px; top: 205.933px;">35</div><div class="timepicker-tick" style="left: 24.0673px; top: 167.5px;">40</div><div class="timepicker-tick" style="left: 10px; top: 115px;">45</div><div class="timepicker-tick" style="left: 24.0673px; top: 62.5px;">50</div><div class="timepicker-tick" style="left: 62.5px; top: 24.0673px;">55</div></div></div><div class="timepicker-footer"><button class="btn-flat timepicker-clear waves-effect" style="visibility: hidden;" type="button" tabindex="3">Clear</button><div class="confirmation-btns"><button class="btn-flat timepicker-close waves-effect" type="button" tabindex="3">Cancel</button><button class="btn-flat timepicker-close waves-effect" type="button" tabindex="3">Ok</button></div></div></div></div></div><input type="text" class="timepicker small" id="horariotermino">
+
+                    <div>
+                        <label id="errorhorariotermino" style="color:red"></label>
+                    </div>
+                </div>
+                <div>
+                      <button class="btn waves-effect waves-light" type="submit" onclick="validaCampos();return false">Enviar datos
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </div>
+        </center>
+        
+    </form>
+
+   <section id="Footer">
+
+          <footer id="footer">
+
+
+        <div class="container d-md-flex py-4">
+
+            <div class="me-md-auto text-center text-md-start">
+                <div class="copyright">
+                © Copyright <strong><span>talentlab.cl</span></strong>. All Rights Reserved
+                </div>
+            </div>
+            <div class="social-links text-center text-md-right pt-3 pt-md-0">
+                <a href="http://127.0.0.1:5500/index.html#" class="twitter"><i class="fa fa-whatsapp"></i></a>
+                <a href="http://127.0.0.1:5500/index.html#" class="facebook"><i class="fa fa-facebook"></i></a>
+                <a href="http://127.0.0.1:5500/index.html#" class="instagram"><i class="fa fa-instagram"></i></a>
+            </div>
+            </div>
+        </footer>
+    </section>
+
+
+<script>
+
+  // Or with jQuery
+
+  $(document).ready(function(){
+    $('.datepicker').datepicker();
+  });
+
+
+
+  // Or with jQuery
+
+  $(document).ready(function(){
+    $('select').formSelect();
+  });
+  
+    $(document).ready(function(){
+    $('.timepicker').timepicker();
+  });
+
+  $(document).ready(function() {
+    $(document).on('submit', '#my-form', function() {
+      // do your things
+      return false;
+     });
+});
+</script>
+</div></section>
+
+  
+        
+<!-- Code injected by live-server -->
+<script type="text/javascript">
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body></html>

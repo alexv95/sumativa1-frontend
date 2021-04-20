@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+      <!-- Materialize-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+    text-align: center;
+}
+form {
+    display: inline-block;
+}
+    </style>
+       <script>
+           function validarRut(numero,dv) {
+                if(!isNaN(numero) || numero.length == 0 || numero.length > 8 ) {
+                    return false;
+                } else {
+                    if(getDV(numero) == dv) return true;
+                }
+                return false;
+            }
+            function getDV(numero) {
+                nuevo_numero = numero.toString().split("").reverse().join("");
+                for(i=0,j=2,suma=0; i < nuevo_numero.length; i++, ((j==7) ? j=2 : j++)) {
+                    suma += (parseInt(nuevo_numero.charAt(i)) * j); 
+                }
+                n_dv = 11 - (suma % 11);
+                return ((n_dv == 11) ? 0 : ((n_dv == 10) ? "K" : n_dv));
+            };
+
+            function validaCampos(){
+                let validateText=["rut","dv","first_name","last_name","born_date","direccion","comuna","vehiculo","marca","modelo","year","revision","primer_servicio","segundo_servicio","encargado","horarioinicio","horariotermino"];
+                let errorText= ["errorrut","errordv","errorfirst_name","errorlast_name","errorborn_date","errordireccion","errorcomuna","errorvehiculo","errormarca","errormodelo","erroryear","errorrevision","errorprimer_servicio","errorsegundo_servicio","errorencargado","errorhorarioinicio","errorhorariotermino"];
+                let cont=0;
+                for(let i=0;i<validateText.length;i++) {
+                    try{
+                                            if(i>=0 && i<11|| i>=14 ){
+                                                if(document.getElementById(validateText[i]).value==""){
+                                                    document.getElementById(errorText[i]).innerHTML="Campo Invalido";
+                                                }
+                                                else{
+                                                    cont= cont+1;
+                                                    document.getElementById(errorText[i]).innerHTML="";
+                                                }
+
+                                            }
+                                            else if(i>=12&&i<14){
+                                                if(document.getElementById(validateText[12]).checked ||  document.getElementById(validateText[13]).checked ){
+                                                    
+                                                    document.getElementById("customError").innerHTML= "";
+                                                    cont=cont+1;
+
+                                                }
+                                                else{
+                                                    document.getElementById("customError").innerHTML= "Debe seleccionar un servicio";
+                                                
+                                                }
+                                                
+                                            }
+
+  
+                }
+                    catch(error){
+                        console.log("error on"+error);
+                    }
+                  
+
+                }
+                if(cont>=16){
+                    let result=0;
+                    if(document.getElementById(validateText[12]).checked){
+                        result = result +5000;
+                    }
+                    if(document.getElementById(validateText[13]).checked){
+                        result = result+8000;
+
+                    }
+                    alert("total a pagar es "+ result);
+                    document.getElementById("test").style.display="block";
+                    document.getElementById("text_success").innerHTML= `<i class="material-icons">check_circle</i><span>Tu valor a pagar es:</span> ${result}.`;
+
+                }
+                else{
+                      document.getElementById("test").style.display="none";
+                }              
+
+            }
+       </script>    
+</head>
+<body>
+    <section id="myNav">
+
+  <nav>
+    <div class="nav-wrapper blue darken-1">
+      <a href="#" class="brand-logo center"> <img src="img/everis-logo.png" alt="" style="height:40px;width:40px;"></a>
+      <ul id="nav-mobile" class="left hide-on-med-and-down">
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Servicios</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </div>
+  </nav>
+</section>
+
+<section id="myForm">
+
+<div class="row "  >
+    <form class="container">
+        <div class="row">
+                         <h4>
+                    Datos de cliente
+                    </h4>
+        </div>
+        <table class="row">
+            <tr class="input-field inline">
+                <td><label for="rut">Rut</label></td>
+                <td><input id="rut" type="text" class="validate" maxlength="8" minlength="1"> </td>
+                <td><label id="errorrut" style="color:red"></label></td>
+                <td><label for="dv">Dígito verificador</label></td>
+                <td><input id="dv" type="text" class="validate" maxlength="1" minlength="1" ></td>
+                <td><label id="errordv" style="color:red"></label></td>
+            </tr>
+            <tr class="input-field inline">
+                <td><label for="first_name">Nombre</label></td>
+                <td> <input id="first_name" type="text" class="validate"></td>
+                <td><label id="errorfirst_name" style="color:red"></label></td>
+                <td><label for="last_name">Apellido</label></td>
+                <td><input id="last_name" type="text" class="validate" ></td>
+                <td><label id="errorlast_name" style="color:red"></label></td>
+            </tr>
+
+            <tr class="input-field inline">
+
+                    <td><label for="born_date">Fecha de nacimiento</label></td>
+                    <td><input id="born_date" type="text" class="datepicker"></td>
+                    <td><label id="errorborn_date" style="color:red"></label></td>
+                    <td><label for="direccion">Dirección</label></td>
+                    <td><input type="text"  id="direccion"></td>
+                    <td><label id="errordireccion" style="color:red"></label></td>
+
+            </tr>
+            <tr class="input-field inline">
+                <td><label for="comuna">Comuna</label></td>
+                <td><input type="text" id="comuna" ></td>
+                <td><label id="errorcomuna" style="color:red"></label></td>
+                <td><label for="vehiculo" >Vehículo</label></td>
+                <td>
+                <select id="vehiculo">
+                    <option value="" disabled selected>Tipo vehículo</option>
+                    <option value="1">Auto</option>
+                    <option value="2">Furgón</option>
+                    <option value="3">Camión</option>
+                </select>
+                </td>
+                <td><label id="errorvehiculo" style="color:red"></label></td>
+            </tr>
+            
+        </table>
+
+        <center>
+                <div class="row">
+                    <h4>
+                    Datos de vehículo
+                    </h4>
+                </div>
+            <div class="container">
+
+                <div class="row input-field inline">
+
+                    <select id="marca" class="col s6">
+                        <option value="" disabled selected style="text-align: center;">Elige tu Marca</option>
+                        <option value="1">Volkswagen</option>
+                        <option value="2">Chevrolet</option>
+                        <option value="3">Ferrari</option>
+                    </select>
+                    <div>
+                        <label id="errormarca" style="color:red"></label>
+                    </div>
+                    
+
+                </div>
+                <div class="row input-field inline">
+                    <label for="modelo">Modelo</label>
+                    <input type="text" id="modelo">
+                    <br>
+                    <div>
+                        <label id="errormodelo" style="color:red"></label>
+                    </div>
+                    
+                </div>
+                <div class="row input-field inline">
+                    <label for="year">Año</label>
+                    <input type="number" name="" id="year" min="2000" max="2021" step="1" >
+                    <br>
+                    <div>
+                        <label id="erroryear" style="color:red"></label>
+                    </div>
+                    
+                </div>
+
+                <div class="row">
+                    <p>Estado de la revisión</p>
+                    <label>
+                        <input type="checkbox" id="revision" />
+                        <span>Revisión técnica</span>
+                    </label>
+
+                </div>
+                <div class="row">
+                         <h4>
+                    Datos de servicio
+                    </h4>
+                </div>
+
+                <div class="row" >
+                    <p>Selección del servicio</p>
+                    <p id="customError" style="color:red"></p>
+                    <label>
+                        <input type="checkbox" id="primer_servicio" />
+                        <span>Lavado exterior</span>
+                    </label>
+                    <label>
+                        <input type="checkbox" id="segundo_servicio" />
+                        <span>Lavado motor</span>
+                    </label>
+                </div>
+                <div class="row input-field inline">
+
+                    <select id="encargado" class="col s6">
+                        <option value="" disabled selected style="text-align: center;">Seleccionar uno</option>
+                        <option value="1">Pedro gonzalez</option>
+                        <option value="2">Ulises Perez</option>
+                        <option value="3">Camila Leiva</option>
+                    </select>
+                    <div>
+                        <label id="errorencargado" style="color:red"></label>
+                    </div>
+                    
+
+                </div>
+
+                <div class="row input-field inline">
+                    <label for="horarioinicio">Horario de Inicio</label>
+                    <input type="text" class="timepicker small" id="horarioinicio">
+
+                    <div>
+                        <label id="errorhorarioinicio" style="color:red"></label>
+                    </div>
+                </div>
+                
+                <div class="row input-field inline">
+                    <label for="horariotermino">Horario de termino</label>
+                    <input type="text" class="timepicker small" id="horariotermino">
+
+                    <div>
+                        <label id="errorhorariotermino" style="color:red"></label>
+                    </div>
+                </div>
+                <div class="alert card green white-text" style="display:none" id="test">
+                    <div class="card-content" >
+                        <p id="text_success"></p>
+                    </div>
+                </div>
+                <div>
+                      <button class="btn waves-effect waves-light" type="submit" onclick="validaCampos();return false">Enviar datos
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </div>
+        </center>
+        
+    </form>
+        <section id="Footer">
+
+          <footer id="footer">
+
+
+        <div class="container d-md-flex py-4">
+
+            <div class="me-md-auto text-center text-md-start">
+                <div class="copyright">
+                &copy; Copyright <strong><span>talentlab.cl</span></strong>. All Rights Reserved
+                </div>
+            </div>
+            <div class="social-links text-center text-md-right pt-3 pt-md-0">
+                <a href="#" class="twitter"><i class="fa fa-whatsapp"></i></a>
+                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+                <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+            </div>
+            </div>
+        </footer>
+    </section>
+
+
+
+<script>
+
+  // Or with jQuery
+
+  $(document).ready(function(){
+    $('.datepicker').datepicker();
+  });
+
+
+
+  // Or with jQuery
+
+  $(document).ready(function(){
+    $('select').formSelect();
+  });
+  
+    $(document).ready(function(){
+    $('.timepicker').timepicker();
+  });
+
+  $(document).ready(function() {
+    $(document).on('submit', '#my-form', function() {
+      // do your things
+      return false;
+     });
+});
+</script>
+</section>
+
+  
+        
+</body>
+</html>
