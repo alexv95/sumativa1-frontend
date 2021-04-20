@@ -23,22 +23,7 @@ form {
 }
     </style>
        <script>
-           function validarRut(numero,dv) {
-                if(!isNaN(numero) || numero.length == 0 || numero.length > 8 ) {
-                    return false;
-                } else {
-                    if(getDV(numero) == dv) return true;
-                }
-                return false;
-            }
-            function getDV(numero) {
-                nuevo_numero = numero.toString().split("").reverse().join("");
-                for(i=0,j=2,suma=0; i < nuevo_numero.length; i++, ((j==7) ? j=2 : j++)) {
-                    suma += (parseInt(nuevo_numero.charAt(i)) * j); 
-                }
-                n_dv = 11 - (suma % 11);
-                return ((n_dv == 11) ? 0 : ((n_dv == 10) ? "K" : n_dv));
-            };
+
 
             function validaCampos(){
                 let validateText=["rut","dv","first_name","last_name","born_date","direccion","comuna","vehiculo","marca","modelo","year","revision","primer_servicio","segundo_servicio","encargado","horarioinicio","horariotermino"];
